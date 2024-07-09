@@ -1,0 +1,6 @@
+accelerate
+transformers>=4.39.0
+peft
+bitsandbytes
+trl>=0.8.3
+pillow
