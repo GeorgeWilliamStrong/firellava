@@ -1,6 +1,6 @@
 accelerate launch \
-    --config_file=examples/accelerate_configs/multi_gpu.yaml \
-    --num_processes {NUM_GPUS} \
+    --config_file=accelerate_configs/multi_gpu.yaml \
+    --num_processes 8 \
     vsft_llava.py \
         --dataset_name="HuggingFaceH4/llava-instruct-mix-vsft" \
         --model_name_or_path="llava-hf/llava-1.5-7b-hf" \
