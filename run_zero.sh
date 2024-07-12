@@ -10,7 +10,7 @@ accelerate launch \
         --gradient_accumulation_steps=1 \
         --output_dir="/home/ubitus04/run1/vsft-firellava-13b" \
         --logging_steps=5 \
-        --num_train_epochs=1 \
+        --num_train_epochs=20 \
         --gradient_checkpointing \
         --remove_unused_columns=False \
         --torch_dtype=float16 \

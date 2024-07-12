@@ -220,6 +220,3 @@ if __name__ == "__main__":
 
     with save_context:
         trainer.save_model(training_args.output_dir)
-        trainer.push_to_hub()
-        if Accelerator().is_main_process:
-            processor.push_to_hub(training_args.hub_model_id)
