@@ -1,6 +1,6 @@
 accelerate launch \
     --config_file=accelerate_configs/deepspeed_zero3.yaml \
-    --num_processes 4 \
+    --num_processes 8 \
     vsft_llava.py \
         --dataset_name="/home/ubitus04/dataset/hf" \
         --model_name_or_path="fireworks-ai/FireLLaVA-13b" \
