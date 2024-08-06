@@ -1,12 +1,12 @@
 import os
-from huggingface_hub import login
+#from huggingface_hub import login
 import requests
 from PIL import Image
 import torch
 from transformers import AutoProcessor, LlavaForConditionalGeneration
 
 
-login(os.environ.get("HF_API_TOKEN"))
+#login(os.environ.get("HF_API_TOKEN"))
 model_id = "fireworks-ai/FireLLaVA-13b"
 
 prompt = "USER: <image>\nWhat is this?\n\nASSISTANT:"
@@ -14,7 +14,8 @@ url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve\
 /main/transformers/tasks/car.jpg"
 
 model = LlavaForConditionalGeneration.from_pretrained(
-    model_id,
+#    model_id,
+    "/home/ubitus07/FireLLaVA-13b",
     torch_dtype=torch.float16,
 ).to(0)
 
