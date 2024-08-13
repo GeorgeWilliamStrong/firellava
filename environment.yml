@@ -251,4 +251,4 @@ dependencies:
       - wandb==0.17.4
       - xxhash==3.4.1
       - yarl==1.9.4
-prefix: /home/ubitus04/miniconda3/envs/hf
+prefix: /home/*******/miniconda3/envs/hf
