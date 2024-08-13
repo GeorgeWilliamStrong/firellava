@@ -2,7 +2,7 @@ accelerate launch \
     --config_file=accelerate_configs/deepspeed_zero3.yaml \
     --num_processes 6 \
     vsft_llava.py \
-        --dataset_name="/home/ubitus07/setup2/dataset/hf" \
+        --dataset_name="/home/*******/setup2/dataset/hf" \
         --model_name_or_path="/home/*******/FireLLaVA-13b" \
         --report_to="wandb" \
         --learning_rate=1e-7 \
