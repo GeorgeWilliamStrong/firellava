@@ -85,7 +85,7 @@ from accelerate import Accelerator
 from datasets import load_dataset, load_from_disk
 
 from tqdm.rich import tqdm
-from transformers import AutoTokenizer, AutoProcessor, LlavaForConditionalGeneration
+from transformers import AutoTokenizer, AutoProcessor, LlavaForConditionalGeneration, TrainerCallback
 
 from trl import (
     ModelConfig,
@@ -103,6 +103,12 @@ if TRL_USE_RICH:
     logging.basicConfig(format=FORMAT, datefmt="[%X]", handlers=[RichHandler()], level=logging.INFO)
 
 
+class EvalLoggerCallback(TrainerCallback):
+    def on_evaluate(self, args, state, control, metrics=None, **kwargs):
+        if metrics is not None:
+            print(f"Evaluation metrics at step {state.global_step}: {metrics}")
+
+
 if __name__ == "__main__":
     parser = TrlParser((SFTScriptArguments, SFTConfig, ModelConfig))
     sft_script_args, training_args, model_config = parser.parse_args_and_config()
@@ -110,7 +116,7 @@ if __name__ == "__main__":
     # Set evaluation strategy during training
     training_args.evaluation_strategy = "steps"
     training_args.eval_steps = 1
-    training_args.metric_for_best_model = "eval_loss"
+    training_args.logging_dir = "logs"
 
     training_args.gradient_checkpointing_kwargs = dict(use_reentrant=False)
     # Force use our print callback
@@ -217,7 +223,7 @@ if __name__ == "__main__":
             dataset_text_field="text",  # need a dummy field
             tokenizer=tokenizer,
             peft_config=get_peft_config(model_config),
-            callbacks=[RichProgressCallback] if TRL_USE_RICH else None,
+            callbacks=callbacks,
             data_collator=data_collator,
             dataset_kwargs={"skip_prepare_dataset": True},
         )
