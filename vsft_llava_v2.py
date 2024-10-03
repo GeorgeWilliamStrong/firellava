@@ -109,7 +109,8 @@ if __name__ == "__main__":
 
     # Set evaluation strategy during training
     training_args.evaluation_strategy = "steps"
-    training_args.eval_steps = 20
+    training_args.eval_steps = 1
+    training_args.metric_for_best_model = "eval_loss"
 
     training_args.gradient_checkpointing_kwargs = dict(use_reentrant=False)
     # Force use our print callback
