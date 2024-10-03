@@ -211,6 +211,9 @@ if __name__ == "__main__":
         else console.status(f"[bold green]Training completed! Saving the model to {training_args.output_dir}")
     )
 
+    # Add the EvalLoggerCallback to log evaluation loss
+    callbacks = [RichProgressCallback, EvalLoggerCallback] if TRL_USE_RICH else [EvalLoggerCallback]
+
     ################
     # Training
     ################
