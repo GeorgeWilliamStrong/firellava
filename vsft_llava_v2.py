@@ -67,6 +67,7 @@ accelerate launch --num_processes=8 -m lmms_eval \
 import logging
 import os
 from contextlib import nullcontext
+import wandb
 
 from trl.commands.cli_utils import init_zero_verbose, SFTScriptArguments, TrlParser
 from trl.env_utils import strtobool
@@ -107,6 +108,8 @@ class EvalLoggerCallback(TrainerCallback):
     def on_evaluate(self, args, state, control, metrics=None, **kwargs):
         if metrics is not None:
             print(f"Evaluation metrics at step {state.global_step}: {metrics}")
+            if args.report_to == "wandb":
+                wandb.log(metrics, step=state.global_step)
 
 
 if __name__ == "__main__":
@@ -114,9 +117,9 @@ if __name__ == "__main__":
     sft_script_args, training_args, model_config = parser.parse_args_and_config()
 
     # Set evaluation strategy during training
-    training_args.evaluation_strategy = "steps"
-    training_args.eval_steps = 1
-    training_args.logging_dir = "logs"
+    training_args.evaluation_strategy = IntervalStrategy.STEPS
+    training_args.eval_steps = 20  # Evaluate every 20 steps
+    training_args.logging_dir = "logs"  # Ensure logging directory is set
 
     training_args.gradient_checkpointing_kwargs = dict(use_reentrant=False)
     # Force use our print callback
