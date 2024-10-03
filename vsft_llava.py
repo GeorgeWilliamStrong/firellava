@@ -218,5 +218,8 @@ if __name__ == "__main__":
 
     trainer.train()
 
+    eval_results = trainer.evaluate(eval_dataset=eval_dataset)
+    print(f"Evaluation results: {eval_results}")
+
     with save_context:
         trainer.save_model(training_args.output_dir)
