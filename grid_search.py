@@ -6,9 +6,9 @@ model_path = "/path/to/FireLLaVA-13b"
 output_path = "/path/to/outputs"
 
 # Define the parameter grid
-learning_rates = [1e-2, 1e-3, 1e-4, 1e-5, 1e-6]
+learning_rates = [1e-3, 1e-4, 1e-5, 1e-6]
 gradient_accumulation_steps = [1, 2]
-num_train_epochs = [5, 10, 20, 30]
+num_train_epochs = [5, 10, 20, 40]
 
 # Path to the accelerate launch script
 launch_command = [
