@@ -4,9 +4,7 @@ import torch
 from transformers import AutoProcessor, LlavaForConditionalGeneration
 from huggingface_hub import login
 
-
 login("INSERT_HF_API_TOKEN")
-
 model_id = "fireworks-ai/FireLLaVA-13b"
 
 prompt = "USER: <image>\nPlease describe the contents of this image?\

@@ -14,4 +14,6 @@ accelerate launch \
         --gradient_checkpointing \
         --remove_unused_columns=False \
         --torch_dtype=float16 \
-        --fp16=True
+        --fp16=True \
+        --use_peft \
+        --lora_target_modules=all-linear
