@@ -25,20 +25,22 @@ def load_image(image_path):
 
 def process_batch(batch_rows):
     batch_results = []
-    image_paths = [images_path + f"/{row['id']}.jpg" for _, row in batch_rows]
+    # Use .iterrows() to properly iterate over DataFrame rows
+    image_paths = [images_path + f"/{row['id']}.jpg" for _, row in batch_rows.iterrows()]
 
     with ThreadPoolExecutor() as executor:
         raw_images = list(executor.map(load_image, image_paths))
 
-    prompts = [f"USER: <image>\n{row['human']}\n\nASSISTANT:" for _, row in batch_rows]
+    # Prepare batch inputs
+    prompts = [f"USER: <image>\n{row['human']}\n\nASSISTANT:" for _, row in batch_rows.iterrows()]
     inputs = processor(prompts, raw_images, return_tensors='pt', padding=True).to(0, torch.float16)
 
-    with torch.no_grad():
+    with torch.no_grad():  # Disable gradient tracking
         output = model.generate(**inputs, max_new_tokens=600, do_sample=False)
 
     decoded_results = processor.batch_decode(output, skip_special_tokens=True)
 
-    for i, (_, row) in enumerate(batch_rows):
+    for i, (_, row) in enumerate(batch_rows.iterrows()):
         batch_results.append({'id': row['id'], 'human': row['human'], 'result': decoded_results[i]})
 
     return batch_results
