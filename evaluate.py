@@ -33,7 +33,7 @@ for _, row in test_df.iterrows():
 
     inputs = processor(prompt, raw_image, return_tensors='pt').to(0, torch.float16)
 
-    output = model.generate(**inputs, max_new_tokens=400, do_sample=False)
+    output = model.generate(**inputs, max_new_tokens=600, do_sample=False)
     result = processor.decode(output[0], skip_special_tokens=True)
 
     results.append({'id': sample_id, 'human': human_prompt, 'result': result})
