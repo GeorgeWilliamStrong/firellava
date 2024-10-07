@@ -7,8 +7,9 @@ model_id = "fireworks-ai/FireLLaVA-13b"
 model_path = "/path/to/model-checkpoint"
 test_path = "/path/to/test-dataset.xlsx"
 images_path = "/path/to/images-folder"
+device = 0
 
-model = LlavaForConditionalGeneration.from_pretrained(model_path, torch_dtype=torch.float16).to(0)
+model = LlavaForConditionalGeneration.from_pretrained(model_path, torch_dtype=torch.float16).to(device)
 processor = AutoProcessor.from_pretrained(model_id)
 
 model.eval()
@@ -31,7 +32,7 @@ for _, row in test_df.iterrows():
     image_path = images_path+f"/{sample_id}.jpg"
     raw_image = Image.open(image_path)
 
-    inputs = processor(prompt, raw_image, return_tensors='pt').to(0, torch.float16)
+    inputs = processor(prompt, raw_image, return_tensors='pt').to(device, torch.float16)
 
     output = model.generate(**inputs, max_new_tokens=700, do_sample=False)
     result = processor.decode(output[0], skip_special_tokens=True)
